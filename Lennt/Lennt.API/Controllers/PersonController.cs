@@ -2,6 +2,7 @@
 using Lennt.Dto.Person;
 using Lennt.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -10,6 +11,7 @@ namespace Lennt.API.Controllers
     [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [EnableCors("LenntOrigins")]
     public class PersonController : ControllerBase
     {
         private readonly IPersonAppSevice _Service;

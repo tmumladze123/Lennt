@@ -20,6 +20,7 @@ namespace Lennt.API
 {
     public class Startup
     {
+        private readonly string _MyAllowSpecificOrigins = "LenntOrigins";
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -42,6 +43,17 @@ namespace Lennt.API
             services.AddTransient<IJwtPasswordInterface, JwtPasswordInterfaceService>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             //services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_MyAllowSpecificOrigins, builder =>
+                {
+                    builder.AllowAnyHeader()
+                       .AllowAnyMethod()
+                       .AllowAnyOrigin()
+                       .WithExposedHeaders("fileName");
+                });
+            });
             services.AddSwaggerGen(setup =>
             {
                 // Include 'SecurityScheme' to use JWT Authentication
@@ -108,7 +120,7 @@ namespace Lennt.API
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseCors(_MyAllowSpecificOrigins);
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
