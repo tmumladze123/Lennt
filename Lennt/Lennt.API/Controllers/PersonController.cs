@@ -4,6 +4,7 @@ using Lennt.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Lennt.API.Controllers
@@ -38,6 +39,12 @@ namespace Lennt.API.Controllers
         public async Task<IResponse<PersonDto>> Get()
         {
             var result = _Service.Get();
+            return await result;
+        }
+        [HttpGet]
+        public async Task<IResponse<List<PersonDto>>> GetList()
+        {
+            var result = _Service.GetList();
             return await result;
         }
     }

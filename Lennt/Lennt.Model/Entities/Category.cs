@@ -1,7 +1,7 @@
 ﻿using System;
 namespace Lennt.Model.Entities
 {
-	public class Category : Base
+	public class Category 
 	{
 		public Category(int id, string name)
 		{

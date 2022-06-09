@@ -4,6 +4,7 @@ using Lennt.Dto.Person;
 using Lennt.Model;
 using Lennt.Model.Entities;
 using Lennt.Services.Interfaces;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -30,6 +31,15 @@ namespace Lennt.Services.Service.Persons
             {
                 Data =
                 _mapper.Map<PersonDto>(_db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()))
+            };
+        }
+
+        public async Task<IResponse<List<PersonDto>>> GetList()
+        {
+            return new ResponseModel<List<PersonDto>>()
+            {
+                Data =
+                _mapper.Map<List<PersonDto>>(_db.Persons.All(x => x.IsDeleted==false&& x.IsActive==true ))
             };
         }
 
