@@ -10,6 +10,7 @@ namespace Lennt.Model
         }
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -36,6 +37,10 @@ namespace Lennt.Model
             .IsRequired();
             #endregion
 
+            #region Categories
+            builder.Entity<Category>().ToTable("Categories");
+            builder.Entity<Category>().HasKey(e => e.Id);
+            #endregion
 
         }
     }
