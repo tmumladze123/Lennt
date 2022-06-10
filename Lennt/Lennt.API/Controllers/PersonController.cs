@@ -12,7 +12,6 @@ namespace Lennt.API.Controllers
     [Authorize]
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [EnableCors("LenntOrigins")]
     public class PersonController : ControllerBase
     {
         private readonly IPersonAppSevice _Service;

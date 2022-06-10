@@ -38,8 +38,8 @@ namespace Lennt.Model
             #endregion
 
             #region Categories
-            //builder.Entity<Category>().ToTable("Categories");
-            //builder.Entity<Category>().HasKey(e => e.Id);
+            builder.Entity<Category>().ToTable("Categories");
+            builder.Entity<Category>().HasKey(e => e.Id);
             #endregion
 
         }

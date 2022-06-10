@@ -50,8 +50,9 @@ namespace Lennt.API
                 {
                     builder.AllowAnyHeader()
                        .AllowAnyMethod()
-                       .AllowAnyOrigin()
-                       .WithExposedHeaders("fileName");
+                       .WithOrigins("http://localhost:4200");
+
+                       //.WithExposedHeaders("fileName");
                 });
             });
             services.AddSwaggerGen(setup =>

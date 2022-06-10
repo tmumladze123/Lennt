@@ -39,7 +39,7 @@ namespace Lennt.Services.Service.Persons
             return new ResponseModel<List<PersonDto>>()
             {
                 Data =
-                _mapper.Map<List<PersonDto>>(_db.Persons.All(x => x.IsDeleted==false&& x.IsActive==true ))
+                _mapper.Map<List<PersonDto>>(_db.Persons.Where(x => x.IsDeleted==false&& x.IsActive==true ).ToList())
             };
         }
 
