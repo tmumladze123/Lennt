@@ -13,6 +13,8 @@ namespace Lennt.Dto.Person
         public string Title { get; set; }
         public string Description { get; set; }
         public string Skills { get; set; }
+        public bool IsActive { get; set; }
+
         //public int? Review { get; set; }
         //public int ReviewCount { get; set; }
     }
