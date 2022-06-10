@@ -11,6 +11,9 @@ namespace Lennt.Model
 
         public DbSet<Person> Persons { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Vacancy> Vacancies { get; set; }
+        public DbSet<VacancyType> VacancyTypes { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -46,6 +49,20 @@ namespace Lennt.Model
             builder.Entity<Category>().ToTable("Categories");
             builder.Entity<Category>().HasKey(e => e.Id);
 
+            #endregion
+
+            #region Vacancies
+            builder.Entity<Vacancy>().ToTable("Vacancies");
+            builder.Entity<Vacancy>().HasKey(e => e.Id);
+            builder.Entity<Vacancy>().HasOne(d => d.Category)
+                .WithMany(d => d.Vacancies)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("FK_Vacancies_Categories_CategoryId");
+
+            builder.Entity<Vacancy>().HasOne(d => d.VacancyType)
+               .WithMany(d => d.Vacancies)
+               .HasForeignKey(d => d.VacancyTypeId)
+               .HasConstraintName("FK_Vacancies_VacancyTypes_VacancyTypeId");
             #endregion
 
         }
