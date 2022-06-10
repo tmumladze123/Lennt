@@ -1,6 +1,6 @@
 ﻿using Lennt.Model.Entities;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace Lennt.Model
 {
     public partial class LenntDbContext : DbContext
@@ -35,11 +35,17 @@ namespace Lennt.Model
 
             builder.Entity<Person>().Property(e => e.BirthDate)
             .IsRequired();
+
+            builder.Entity<Person>().HasOne(d => d.Category)
+                .WithMany(d => d.Persons)
+                .HasForeignKey(d => d.CategoryId)
+                .HasConstraintName("FK_Persons_Categories_CategoryId");
             #endregion
 
             #region Categories
             builder.Entity<Category>().ToTable("Categories");
             builder.Entity<Category>().HasKey(e => e.Id);
+
             #endregion
 
         }

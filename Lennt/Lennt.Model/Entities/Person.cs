@@ -48,7 +48,9 @@ namespace Lennt.Model.Entities
         public string Description { get; set; }
         public string Skills { get; set; }
         public int? Review { get; set; }
-        public int ReviewCount { get; set; }
+        public int? ReviewCount { get; set; }
+        public int? CategoryId { get; set; }
+        public virtual Category Category { get; set; }
         //public virtual ICollection<Category> Categories { get; private set; }
         //public virtual ICollection<Contact> Contacts { get; private set; }
         //public virtual ICollection<PersonVacancy> PersonVacancies { get; private set; }

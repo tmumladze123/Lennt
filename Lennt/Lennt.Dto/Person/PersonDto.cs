@@ -14,7 +14,7 @@ namespace Lennt.Dto.Person
         public string Description { get; set; }
         public string Skills { get; set; }
         public bool IsActive { get; set; }
-
+        public int? CategoryId { get; set; }
         //public int? Review { get; set; }
         //public int ReviewCount { get; set; }
     }

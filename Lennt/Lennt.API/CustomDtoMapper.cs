@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Lennt.Dto.Category;
 using Lennt.Dto.Person;
 using Lennt.Model.Entities;
 
@@ -9,6 +10,7 @@ namespace Lennt.API
         public CustomDtoMapper()
         {
             CreateMap<Person, PersonDto>().ReverseMap();
+            CreateMap<Category, CategoryDto>().ReverseMap();
         }
     }
 }
