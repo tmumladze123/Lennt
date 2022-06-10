@@ -40,6 +40,7 @@ namespace Lennt.API
             //Dependencies
             services.AddTransient<LenntDbContext>();
             services.AddTransient<IPersonAppSevice, PersonAppService>();
+            services.AddTransient<ICategoryAppService, CategoryAppService>();
             services.AddTransient<IJwtPasswordInterface, JwtPasswordInterfaceService>();
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             //services.TryAddSingleton<IActionContextAccessor, ActionContextAccessor>();

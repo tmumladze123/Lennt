@@ -71,5 +71,19 @@ namespace Lennt.Services.Service.Persons
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
         }
+
+        public async Task<IResponse<bool>> Update(PersonDto input)
+        {
+          
+            var person = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId());
+            if (person != null)
+            {
+                _mapper.Map(input, person);
+            }
+            
+            _db.Update(person);
+            _db.SaveChanges();
+            return new ResponseModel<bool>() { Data = true };
+        }
     }
 }

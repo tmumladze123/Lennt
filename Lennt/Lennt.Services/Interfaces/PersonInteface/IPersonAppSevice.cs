@@ -11,5 +11,7 @@ namespace Lennt.Services.Interfaces
         Task<Lennt.Dto.IResponse<string>> Login(LoginDto input);
         Task<IResponse<PersonDto>> Get();
         Task<IResponse<List<PersonDto>>> GetList();
+        Task<Lennt.Dto.IResponse<bool>> Update(PersonDto input);
+
     }
 }

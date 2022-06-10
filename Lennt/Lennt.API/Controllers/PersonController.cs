@@ -34,6 +34,13 @@ namespace Lennt.API.Controllers
             return await result;
 
         }
+        [HttpPut]
+        public async Task<IResponse<bool>> Update([FromBody] PersonDto input)
+        {
+            var result = _Service.Update(input);
+            return await result;
+
+        }
         [HttpGet]
         public async Task<IResponse<PersonDto>> Get()
         {
