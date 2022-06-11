@@ -3,6 +3,12 @@ namespace Lennt.Model.Entities
 {
     public class Vacancy : Base
     {
+        public Vacancy()
+        {
+            //Categories = new HashSet<Category>();
+            //Contacts = new HashSet<Contact>();
+            //PersonVacancies = new HashSet<PersonVacancy>();
+        }
         public Vacancy(
             string title,
             string description,
@@ -14,7 +20,7 @@ namespace Lennt.Model.Entities
             decimal price,
             string location,
             string duration
-            )
+            ) : this()
         {
             Title = title;
             Description = description;

@@ -1,7 +1,9 @@
 using Lennt.Model;
 using Lennt.Services.Interfaces;
+using Lennt.Services.Interfaces.VacancyInterface;
 using Lennt.Services.Service;
 using Lennt.Services.Service.Persons;
+using Lennt.Services.Service.Vacancies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -39,6 +41,7 @@ namespace Lennt.API
 
             //Dependencies
             services.AddTransient<LenntDbContext>();
+            services.AddTransient<IVacancyAppService, VacancyAppService>();
             services.AddTransient<IPersonAppSevice, PersonAppService>();
             services.AddTransient<ICategoryAppService, CategoryAppService>();
             services.AddTransient<IJwtPasswordInterface, JwtPasswordInterfaceService>();

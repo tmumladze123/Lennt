@@ -20,6 +20,12 @@
 
   <ItemGroup>
     <Folder Include="Helper\" />
+    <Folder Include="Interfaces\VacancyInterface\" />
+    <Folder Include="Service\Vacancy\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Interfaces\VacancyInterface %28copy%29\" />
+    <None Remove="Service\Vacancy\" />
+  </ItemGroup>
 </Project>
