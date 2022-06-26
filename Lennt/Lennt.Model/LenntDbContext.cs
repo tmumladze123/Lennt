@@ -10,6 +10,7 @@ namespace Lennt.Model
         }
 
         public DbSet<Person> Persons { get; set; }
+        public DbSet<VacancyPerson> VacancyPersons { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Vacancy> Vacancies { get; set; }
         public DbSet<VacancyType> VacancyTypes { get; set; }
@@ -63,6 +64,31 @@ namespace Lennt.Model
                .WithMany(d => d.Vacancies)
                .HasForeignKey(d => d.VacancyTypeId)
                .HasConstraintName("FK_Vacancies_VacancyTypes_VacancyTypeId");
+            #endregion
+            #region vacancyPerson
+            builder.Entity<VacancyPerson>().ToTable("VacancyPersons");
+            builder.Entity<VacancyPerson>().HasKey(e => e.Id);
+            builder.Entity<VacancyPerson>().Property(e => e.IsDeleted)
+              .IsRequired()
+              .HasDefaultValue(false);
+            builder.Entity<VacancyPerson>().Property(e => e.IsApproved)
+              .IsRequired()
+              .HasDefaultValue(false);
+            builder.Entity<VacancyPerson>().Property(e => e.IsActive)
+              .IsRequired()
+              .HasDefaultValue(true);
+            builder.Entity<VacancyPerson>().Property(e => e.PersonId)
+              .IsRequired();
+            builder.Entity<VacancyPerson>().Property(e => e.VacancyId)
+              .IsRequired();
+            builder.Entity<VacancyPerson>().HasOne(d => d.Person)
+               .WithMany(d => d.VacancyPersons)
+               .HasForeignKey(d => d.PersonId)
+               .HasConstraintName("FK_VacancyPersons_Persons_PersonId");
+            builder.Entity<VacancyPerson>().HasOne(d => d.Vacancy)
+               .WithMany(d => d.VacancyPersons)
+               .HasForeignKey(d => d.VacancyId)
+               .HasConstraintName("FK_VacancyPersons_Vacancies_VacancyId");
             #endregion
 
         }

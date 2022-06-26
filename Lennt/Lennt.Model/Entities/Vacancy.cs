@@ -1,19 +1,19 @@
 ﻿using System;
+using System.Collections.Generic;
+
 namespace Lennt.Model.Entities
 {
     public class Vacancy : Base
     {
         public Vacancy()
         {
-            //Categories = new HashSet<Category>();
-            //Contacts = new HashSet<Contact>();
-            //PersonVacancies = new HashSet<PersonVacancy>();
+            VacancyPersons = new HashSet<VacancyPerson>();
         }
         public Vacancy(
+            long createPersonId,
             string title,
             string description,
             bool isFinished,
-            bool isApplied,
             bool isDoing,
             int vacancyTypeId,
             int categoryId,
@@ -22,10 +22,10 @@ namespace Lennt.Model.Entities
             string duration
             ) : this()
         {
+            CreatePersonId = createPersonId;
             Title = title;
             Description = description;
             IsFinished = isFinished;
-            IsApplied = isApplied;
             IsDoing = isDoing;
             VacancyTypeId = vacancyTypeId;
             CategoryId = categoryId;
@@ -35,11 +35,11 @@ namespace Lennt.Model.Entities
 
 
         }
+        public long CreatePersonId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public bool IsFinished { get; set; }
-        public bool IsApplied { get; set; }
-        public bool IsDoing { get; set; }//?
+        public bool IsDoing { get; set; }
         public int VacancyTypeId { get; set; }
         public int CategoryId { get; set; }
         public decimal Price { get; set; }
@@ -49,6 +49,6 @@ namespace Lennt.Model.Entities
         public virtual Category Category { get; set; }
         public virtual VacancyType VacancyType { get; set; }
 
-
+        public virtual ICollection<VacancyPerson> VacancyPersons { get; private set; }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Lennt.Model.Entities
 {
@@ -6,9 +7,7 @@ namespace Lennt.Model.Entities
     {
         public Person()
         {
-            //Categories = new HashSet<Category>();
-            //Contacts = new HashSet<Contact>();
-            //PersonVacancies = new HashSet<PersonVacancy>();
+            VacancyPersons = new HashSet<VacancyPerson>();
         }
 
 
@@ -52,6 +51,7 @@ namespace Lennt.Model.Entities
         public int? CategoryId { get; set; }
         public virtual Category Category { get; set; }
 
+        public virtual ICollection<VacancyPerson> VacancyPersons { get; private set; }
         //public virtual ICollection<PersonVacancy> PersonVacancies { get; private set; }
 
 
