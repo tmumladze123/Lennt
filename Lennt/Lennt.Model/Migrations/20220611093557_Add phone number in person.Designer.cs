@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Lennt.Model.Migrations
 {
     [DbContext(typeof(LenntDbContext))]
-    [Migration("20220626174242_Add phone number in person")]
+    [Migration("20220611093557_Add phone number in person")]
     partial class Addphonenumberinperson
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,6 +79,9 @@ namespace Lennt.Model.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
                     b.Property<int?>("Review")
                         .HasColumnType("integer");
 
@@ -115,9 +118,6 @@ namespace Lennt.Model.Migrations
                     b.Property<DateTime>("CreateDate")
                         .HasColumnType("timestamp without time zone");
 
-                    b.Property<long>("CreatePersonId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("Description")
                         .HasColumnType("text");
 
@@ -125,6 +125,9 @@ namespace Lennt.Model.Migrations
                         .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsApplied")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("IsDeleted")
@@ -155,46 +158,6 @@ namespace Lennt.Model.Migrations
                     b.HasIndex("VacancyTypeId");
 
                     b.ToTable("Vacancies");
-                });
-
-            modelBuilder.Entity("Lennt.Model.Entities.VacancyPerson", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<DateTime>("CreateDate")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
-
-                    b.Property<bool>("IsApproved")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<long>("PersonId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("VacancyId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PersonId");
-
-                    b.HasIndex("VacancyId");
-
-                    b.ToTable("VacancyPersons");
                 });
 
             modelBuilder.Entity("Lennt.Model.Entities.VacancyType", b =>
@@ -243,42 +206,11 @@ namespace Lennt.Model.Migrations
                     b.Navigation("VacancyType");
                 });
 
-            modelBuilder.Entity("Lennt.Model.Entities.VacancyPerson", b =>
-                {
-                    b.HasOne("Lennt.Model.Entities.Person", "Person")
-                        .WithMany("VacancyPersons")
-                        .HasForeignKey("PersonId")
-                        .HasConstraintName("FK_VacancyPersons_Persons_PersonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Lennt.Model.Entities.Vacancy", "Vacancy")
-                        .WithMany("VacancyPersons")
-                        .HasForeignKey("VacancyId")
-                        .HasConstraintName("FK_VacancyPersons_Vacancies_VacancyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Person");
-
-                    b.Navigation("Vacancy");
-                });
-
             modelBuilder.Entity("Lennt.Model.Entities.Category", b =>
                 {
                     b.Navigation("Persons");
 
                     b.Navigation("Vacancies");
-                });
-
-            modelBuilder.Entity("Lennt.Model.Entities.Person", b =>
-                {
-                    b.Navigation("VacancyPersons");
-                });
-
-            modelBuilder.Entity("Lennt.Model.Entities.Vacancy", b =>
-                {
-                    b.Navigation("VacancyPersons");
                 });
 
             modelBuilder.Entity("Lennt.Model.Entities.VacancyType", b =>

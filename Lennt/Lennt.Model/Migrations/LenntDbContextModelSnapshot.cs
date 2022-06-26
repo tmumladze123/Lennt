@@ -77,6 +77,9 @@ namespace Lennt.Model.Migrations
                     b.Property<string>("Password")
                         .HasColumnType("text");
 
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
                     b.Property<int?>("Review")
                         .HasColumnType("integer");
 

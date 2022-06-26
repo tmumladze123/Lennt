@@ -91,6 +91,12 @@ namespace Lennt.Model
                .HasConstraintName("FK_VacancyPersons_Vacancies_VacancyId");
             #endregion
 
+            #region VacancyType
+            builder.Entity<VacancyType>().ToTable("VacancyTypes");
+            builder.Entity<VacancyType>().HasKey(e => e.Id);
+
+            #endregion
+
         }
     }
 }
