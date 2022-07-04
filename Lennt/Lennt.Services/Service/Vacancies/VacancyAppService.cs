@@ -8,6 +8,7 @@ using AutoMapper;
 using System.Linq;
 using Lennt.Model;
 using Lennt.Dto.VacancyPerson;
+using Lennt.Services.Interfaces;
 
 namespace Lennt.Services.Service.Vacancies
 {
@@ -15,12 +16,15 @@ namespace Lennt.Services.Service.Vacancies
 	{
         private readonly LenntDbContext _db;
         private readonly IMapper _mapper;
+        private readonly IJwtPasswordInterface _jwtPasswordService;
         public VacancyAppService(
             LenntDbContext db,
-            IMapper mapper)
+            IMapper mapper,
+            IJwtPasswordInterface jwtPasswordInterface)
         {
             _db = db;
             _mapper = mapper;
+            _jwtPasswordService = jwtPasswordInterface;
         }
         public async Task<IResponse<GetVacancyDto>> Get(long id)
         {
@@ -42,16 +46,15 @@ namespace Lennt.Services.Service.Vacancies
         {
             VacancyPersonDto vp = new VacancyPersonDto();
             var vacancy = _mapper.Map<Vacancy>(input);
+            vacancy.CreatePersonId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
             _db.Add(vacancy);
-            _db.SaveChanges();
             if (userId != 0)
             {
                 vp.IsApproved = false;
                 vp.PersonId = userId;
-                var vacancyPerson = _mapper.Map<VacancyPerson>(vp);
-                _db.Add(vacancyPerson);
-                _db.SaveChanges();
+                vacancy.AddPerson(_mapper.Map<VacancyPerson>(vp));
             }
+            _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
 
         }

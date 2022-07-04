@@ -50,5 +50,15 @@ namespace Lennt.Model.Entities
         public virtual VacancyType VacancyType { get; set; }
 
         public virtual ICollection<VacancyPerson> VacancyPersons { get; private set; }
+
+        public Vacancy AddPerson(params VacancyPerson[] vacancyPerson)
+        {
+            
+            foreach (var vp in vacancyPerson)
+            {
+                VacancyPersons.Add(vp);
+            }
+            return this;
+        }
     }
 }
