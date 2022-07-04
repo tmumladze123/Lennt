@@ -11,7 +11,7 @@ namespace Lennt.Dto.Vacancy
         public decimal Price { get; set; }
         public string Location { get; set; }
         public string Duration { get; set; }
-		
-	}
+
+    }
 }
 

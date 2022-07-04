@@ -7,6 +7,7 @@ using Lennt.Services.Interfaces.VacancyInterface;
 using AutoMapper;
 using System.Linq;
 using Lennt.Model;
+using Lennt.Dto.VacancyPerson;
 
 namespace Lennt.Services.Service.Vacancies
 {
@@ -37,12 +38,22 @@ namespace Lennt.Services.Service.Vacancies
                 _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x => x.IsFinished == false).ToList())
             };
         }
-        public async Task<IResponse<bool>> Create(VacancyDto input)
+        public async Task<IResponse<bool>> Create(VacancyDto input, long userId)
         {
+            VacancyPersonDto vp = new VacancyPersonDto();
             var vacancy = _mapper.Map<Vacancy>(input);
             _db.Add(vacancy);
             _db.SaveChanges();
+            if (userId != 0)
+            {
+                vp.IsApproved = false;
+                vp.PersonId = userId;
+                var vacancyPerson = _mapper.Map<VacancyPerson>(vp);
+                _db.Add(vacancyPerson);
+                _db.SaveChanges();
+            }
             return new ResponseModel<bool>() { Data = true };
+
         }
 
         public async Task<IResponse<bool>> Update(VacancyDto input)

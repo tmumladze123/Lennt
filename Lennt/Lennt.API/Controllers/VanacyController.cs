@@ -21,9 +21,9 @@ namespace Lennt.API.Controllers
             _Service = service;
         }
         [HttpPost]
-        public async Task<IResponse<bool>> Create([FromBody] VacancyDto input)
+        public async Task<IResponse<bool>> Create([FromBody] VacancyDto input, long userId)
         {
-            var result = _Service.Create(input);
+            var result = _Service.Create(input, userId);
             return await result;
         }
         

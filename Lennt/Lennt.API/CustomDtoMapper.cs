@@ -2,6 +2,7 @@
 using Lennt.Dto.Category;
 using Lennt.Dto.Person;
 using Lennt.Dto.Vacancy;
+using Lennt.Dto.VacancyPerson;
 using Lennt.Model.Entities;
 
 namespace Lennt.API
@@ -14,6 +15,7 @@ namespace Lennt.API
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<Vacancy, VacancyDto>().ReverseMap();
             CreateMap<Vacancy, GetVacancyDto>().ReverseMap();
+            CreateMap<VacancyPerson, VacancyPersonDto>().ReverseMap();
         }
     }
 }
