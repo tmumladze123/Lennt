@@ -26,7 +26,7 @@ namespace Lennt.API.Controllers
             var result = _Service.Create(input, userId);
             return await result;
         }
-        
+
         [HttpPut]
         public async Task<IResponse<bool>> Update([FromBody] VacancyDto input)
         {
@@ -44,6 +44,19 @@ namespace Lennt.API.Controllers
         public async Task<IResponse<List<GetVacancyDto>>> GetList()
         {
             var result = _Service.GetList();
+            return await result;
+        }
+
+        [HttpGet]
+        public async Task<IResponse<List<GetVacancyDto>>> GetMyVacancies()
+        {
+            var result = _Service.GetMyVacancies();
+            return await result;
+        }
+        [HttpGet]
+        public async Task<IResponse<List<GetVacancyDto>>> GetMyOffers()
+        {
+            var result = _Service.GetMyOffers();
             return await result;
         }
     }

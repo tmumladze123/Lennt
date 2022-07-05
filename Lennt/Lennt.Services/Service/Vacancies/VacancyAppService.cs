@@ -12,8 +12,8 @@ using Lennt.Services.Interfaces;
 
 namespace Lennt.Services.Service.Vacancies
 {
-	public class VacancyAppService : IVacancyAppService
-	{
+    public class VacancyAppService : IVacancyAppService
+    {
         private readonly LenntDbContext _db;
         private readonly IMapper _mapper;
         private readonly IJwtPasswordInterface _jwtPasswordService;
@@ -40,6 +40,34 @@ namespace Lennt.Services.Service.Vacancies
             {
                 Data =
                 _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x => x.IsFinished == false).ToList())
+            };
+        }
+        public async Task<IResponse<List<GetVacancyDto>>> GetMyVacancies()
+        {
+            var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
+            return new ResponseModel<List<GetVacancyDto>>()
+            {
+                Data =
+                _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
+                x.CreatePersonId == userId
+                && x.IsActive == true
+                && x.IsDeleted == false).ToList())
+            };
+        }
+        public async Task<IResponse<List<GetVacancyDto>>> GetMyOffers()
+        {
+            var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
+            var vacancyPerson = _db.VacancyPersons.Where(x =>
+                  x.PersonId == userId
+                  && x.IsActive == true
+                  && x.IsDeleted == false).ToList();
+            return new ResponseModel<List<GetVacancyDto>>()
+            {
+                Data =
+                _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
+                x.VacancyPersons == vacancyPerson
+                && x.IsActive == true
+                && x.IsDeleted == false).ToList())
             };
         }
         public async Task<IResponse<bool>> Create(VacancyDto input, long userId)
@@ -73,7 +101,7 @@ namespace Lennt.Services.Service.Vacancies
             return new ResponseModel<bool>() { Data = true };
         }
 
-      
+
     }
 }
 
