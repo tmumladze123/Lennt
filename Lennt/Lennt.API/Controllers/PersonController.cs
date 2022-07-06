@@ -48,7 +48,7 @@ namespace Lennt.API.Controllers
             return await result;
         }
         [HttpGet]
-        public async Task<IResponse<List<PersonDto>>> GetList()
+        public async Task<IResponse<List<PersonWithIdDto>>> GetList()
         {
             var result = _Service.GetList();
             return await result;

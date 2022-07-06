@@ -11,6 +11,7 @@ namespace Lennt.API
     {
         public CustomDtoMapper()
         {
+            CreateMap<Person, PersonWithIdDto>().ReverseMap();
             CreateMap<Person, PersonDto>().ReverseMap();
             CreateMap<Category, CategoryDto>().ReverseMap();
             CreateMap<Vacancy, VacancyDto>().ReverseMap();

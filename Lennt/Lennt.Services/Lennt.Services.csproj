@@ -25,5 +25,6 @@
 
   <ItemGroup>
     <None Remove="Interfaces\VacancyInterface %28copy%29\" />
+    <None Remove="Service\VacancyPerson\" />
   </ItemGroup>
 </Project>

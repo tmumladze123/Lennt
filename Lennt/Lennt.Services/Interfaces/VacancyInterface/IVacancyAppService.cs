@@ -14,7 +14,8 @@ namespace Lennt.Services.Interfaces.VacancyInterface
         Task<IResponse<List<GetVacancyDto>>> GetMyOffers();
         Task<IResponse<List<GetVacancyDto>>> GetMyVacancies();
         Task<IResponse<List<GetVacancyDto>>> GetList();
-        
+        Task<IResponse<bool>> Approve(long vacancyId);
+
     }
 }
 

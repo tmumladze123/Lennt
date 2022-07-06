@@ -34,12 +34,12 @@ namespace Lennt.Services.Service.Persons
             };
         }
 
-        public async Task<IResponse<List<PersonDto>>> GetList()
+        public async Task<IResponse<List<PersonWithIdDto>>> GetList()
         {
-            return new ResponseModel<List<PersonDto>>()
+            return new ResponseModel<List<PersonWithIdDto>>()
             {
                 Data =
-                _mapper.Map<List<PersonDto>>(_db.Persons.Where(x => x.IsDeleted==false&& x.IsActive==true ).ToList())
+                _mapper.Map<List<PersonWithIdDto>>(_db.Persons.Where(x => x.IsDeleted==false&& x.IsActive==true ).ToList())
             };
         }
 
