@@ -41,7 +41,6 @@ namespace Lennt.API
 
             //Dependencies
             services.AddTransient<LenntDbContext>();
-            //services.AddTransient<IVacancyPeronAppService, VacancyPersonAppService>();
             services.AddTransient<IVacancyAppService, VacancyAppService>();
             services.AddTransient<IPersonAppSevice, PersonAppService>();
             services.AddTransient<ICategoryAppService, CategoryAppService>();
