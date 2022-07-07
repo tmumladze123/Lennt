@@ -34,12 +34,13 @@ namespace Lennt.Services.Service.Vacancies
                 _mapper.Map<GetVacancyDto>(_db.Vacancies.FirstOrDefault(x => x.Id == id))
             };
         }
-        public async Task<IResponse<List<GetVacancyDto>>> GetList()
+        public async Task<IResponse<List<GetVacancyDto>>> GetList(int? categoryId)
         {
             return new ResponseModel<List<GetVacancyDto>>()
             {
+                
                 Data =
-                _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x => x.IsFinished == false).ToList())
+                _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x => x.IsFinished == false && ((categoryId==null && x.CategoryId!=categoryId)|| (categoryId != null && x.CategoryId == categoryId))).ToList())
             };
         }
         public async Task<IResponse<List<GetVacancyDto>>> GetMyVacancies()
