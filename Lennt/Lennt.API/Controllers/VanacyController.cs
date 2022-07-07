@@ -32,6 +32,12 @@ namespace Lennt.API.Controllers
             var result = _Service.Approve(vacancyId);
             return await result;
         }
+        [HttpPost]
+        public async Task<IResponse<bool>> ApproveByOwner(long vacancyId, long personId)
+        {
+            var result = _Service.ApproveByOwner(vacancyId, personId);
+            return await result;
+        }
 
         [HttpPut]
         public async Task<IResponse<bool>> Update([FromBody] VacancyDto input)

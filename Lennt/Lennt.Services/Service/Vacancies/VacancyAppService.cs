@@ -107,6 +107,15 @@ namespace Lennt.Services.Service.Vacancies
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
         }
+
+        public async Task<IResponse<bool>> ApproveByOwner(long vacancyId, long personId)
+        {
+            var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x => x.VacancyId == vacancyId && x.PersonId == personId);
+            vacancyPerson.IsApproved = true;
+            _db.Update(vacancyPerson);
+            _db.SaveChanges();
+            return new ResponseModel<bool>() { Data = true };
+        }
     }
 }
 
