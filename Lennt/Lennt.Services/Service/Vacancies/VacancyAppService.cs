@@ -57,16 +57,13 @@ namespace Lennt.Services.Service.Vacancies
         public async Task<IResponse<List<GetVacancyDto>>> GetMyOffers()
         {
             var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
-            var vacancyPerson = _db.VacancyPersons.Where(x =>
-                  x.PersonId == userId
-                  && x.IsActive == true
-                  && x.IsDeleted == false).ToList();
+            
             return new ResponseModel<List<GetVacancyDto>>()
             {
                 Data =
                 _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
-                x.VacancyPersons == vacancyPerson
-                && x.IsActive == true
+                x.VacancyPersons.Any(w => w.PersonId == userId)
+                //&& x.IsActive == true
                 && x.IsDeleted == false).ToList())
             };
         }
