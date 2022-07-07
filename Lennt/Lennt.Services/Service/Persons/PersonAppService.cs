@@ -34,12 +34,20 @@ namespace Lennt.Services.Service.Persons
             };
         }
 
+        public async Task<IResponse<PersonDto>> GetPersonDetails(long id)
+        {
+            return new ResponseModel<PersonDto>()
+            {
+                Data =
+                _mapper.Map<PersonDto>(_db.Persons.FirstOrDefault(x => x.Id == id))
+            };
+        }
         public async Task<IResponse<List<PersonWithIdDto>>> GetList()
         {
             return new ResponseModel<List<PersonWithIdDto>>()
             {
                 Data =
-                _mapper.Map<List<PersonWithIdDto>>(_db.Persons.Where(x => x.IsDeleted==false&& x.IsActive==true ).OrderBy(x => System.Convert.ToInt32(x.Id)).ToList())
+                _mapper.Map<List<PersonWithIdDto>>(_db.Persons.Where(x => x.IsDeleted == false && x.IsActive == true).OrderBy(x => System.Convert.ToInt32(x.Id)).ToList())
             };
         }
 
@@ -74,13 +82,13 @@ namespace Lennt.Services.Service.Persons
 
         public async Task<IResponse<bool>> Update(PersonDto input)
         {
-          
+
             var person = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId());
             if (person != null)
             {
                 _mapper.Map(input, person);
             }
-            
+
             _db.Update(person);
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };

@@ -10,6 +10,7 @@ namespace Lennt.Services.Interfaces
         Task<Lennt.Dto.IResponse<bool>> Register(PersonDto input);
         Task<Lennt.Dto.IResponse<string>> Login(LoginDto input);
         Task<IResponse<PersonDto>> Get();
+        Task<IResponse<PersonDto>> GetPersonDetails(long id);
         Task<IResponse<List<PersonWithIdDto>>> GetList();
         Task<Lennt.Dto.IResponse<bool>> Update(PersonDto input);
 
