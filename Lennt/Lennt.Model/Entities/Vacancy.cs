@@ -11,6 +11,7 @@ namespace Lennt.Model.Entities
         }
         public Vacancy(
             long createPersonId,
+            string createPersonName,
             string title,
             string description,
             bool isFinished,
@@ -23,6 +24,7 @@ namespace Lennt.Model.Entities
             ) : this()
         {
             CreatePersonId = createPersonId;
+            CreatePersonName = createPersonName;
             Title = title;
             Description = description;
             IsFinished = isFinished;
@@ -36,6 +38,7 @@ namespace Lennt.Model.Entities
 
         }
         public long CreatePersonId { get; set; }
+        public string CreatePersonName { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public bool IsFinished { get; set; }
@@ -53,7 +56,7 @@ namespace Lennt.Model.Entities
 
         public Vacancy AddPerson(params VacancyPerson[] vacancyPerson)
         {
-            
+
             foreach (var vp in vacancyPerson)
             {
                 VacancyPersons.Add(vp);

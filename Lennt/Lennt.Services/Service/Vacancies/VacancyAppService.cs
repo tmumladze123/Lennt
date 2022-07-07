@@ -73,6 +73,10 @@ namespace Lennt.Services.Service.Vacancies
             VacancyPersonDto vp = new VacancyPersonDto();
             var vacancy = _mapper.Map<Vacancy>(input);
             vacancy.CreatePersonId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
+            var createPersonFirstname = _db.Persons.FirstOrDefault(x => x.Id == vacancy.CreatePersonId).Firstname;
+            var createPersonLastname = _db.Persons.FirstOrDefault(x => x.Id == vacancy.CreatePersonId).Lastname;
+            vacancy.CreatePersonName = createPersonFirstname + ' ' + createPersonLastname;
+
             _db.Add(vacancy);
             if (userId != 0)
             {
