@@ -55,6 +55,9 @@ namespace Lennt.Model
             #region Vacancies
             builder.Entity<Vacancy>().ToTable("Vacancies");
             builder.Entity<Vacancy>().HasKey(e => e.Id);
+            builder.Entity<Vacancy>().Property(e => e.IsActive)
+            .IsRequired()
+            .HasDefaultValue(true);
             builder.Entity<Vacancy>().HasOne(d => d.Category)
                 .WithMany(d => d.Vacancies)
                 .HasForeignKey(d => d.CategoryId)
