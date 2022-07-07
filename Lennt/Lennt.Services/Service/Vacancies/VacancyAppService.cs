@@ -98,7 +98,20 @@ namespace Lennt.Services.Service.Vacancies
             return new ResponseModel<bool>() { Data = true };
         }
 
-
+        public async Task<IResponse<bool>> SubmitProposal(long vacancyId)
+        {
+            var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
+            VacancyPersonDto vp = new VacancyPersonDto();
+            vp.PersonId = userId;
+            vp.VacancyId = vacancyId;
+            vp.IsApproved = false;
+            //_db.Add(vp);
+            var vacancy= _db.Vacancies.FirstOrDefault(x => x.Id == vacancyId);
+            vacancy.AddPerson(_mapper.Map<VacancyPerson>(vp));
+            _db.Update(vacancy);
+            _db.SaveChanges();
+            return new ResponseModel<bool>() { Data = true };
+        }
     }
 }
 

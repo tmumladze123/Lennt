@@ -59,6 +59,14 @@ namespace Lennt.API.Controllers
             var result = _Service.GetMyOffers();
             return await result;
         }
+
+        [HttpPost]
+        public async Task<IResponse<bool>> SubmitProposal(long vacancyId)
+        {
+            var result = _Service.SubmitProposal(vacancyId);
+            return await result;
+
+        }
     }
 }
 
