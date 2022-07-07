@@ -57,7 +57,7 @@ namespace Lennt.Services.Service.Vacancies
         public async Task<IResponse<List<GetVacancyDto>>> GetMyOffers()
         {
             var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
-            
+
             return new ResponseModel<List<GetVacancyDto>>()
             {
                 Data =
@@ -106,12 +106,31 @@ namespace Lennt.Services.Service.Vacancies
             vp.VacancyId = vacancyId;
             vp.IsApproved = false;
             //_db.Add(vp);
-            var vacancy= _db.Vacancies.FirstOrDefault(x => x.Id == vacancyId);
+            var vacancy = _db.Vacancies.FirstOrDefault(x => x.Id == vacancyId);
             vacancy.AddPerson(_mapper.Map<VacancyPerson>(vp));
             _db.Update(vacancy);
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
+
+        }
+        public async Task<IResponse<bool>> Approve(long vacancyId)
+        {
+            var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x => x.VacancyId == vacancyId);
+            vacancyPerson.IsApproved = true;
+            _db.Update(vacancyPerson);
+            _db.SaveChanges();
+            return new ResponseModel<bool>() { Data = true };
+        }
+
+        public async Task<IResponse<bool>> ApproveByOwner(long vacancyId, long personId)
+        {
+            var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x => x.VacancyId == vacancyId && x.PersonId == personId);
+            vacancyPerson.IsApproved = true;
+            _db.Update(vacancyPerson);
+            _db.SaveChanges();
+            return new ResponseModel<bool>() { Data = true };
+
         }
     }
-}
 
+}
