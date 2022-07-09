@@ -13,11 +13,11 @@ namespace Lennt.Services.Interfaces.VacancyInterface
         Task<IResponse<bool>> SubmitProposal(long vacancyId);
         Task<IResponse<GetVacancyDto>> Get(long id);
         Task<IResponse<List<GetVacancyDto>>> GetMyOffers();
-        Task<IResponse<List<GetVacancyDto>>> GetMyVacancies();
+        Task<IResponse<List<GetMyVacanciesDto>>> GetMyVacancies();
         Task<IResponse<List<GetVacancyDto>>> GetList(int? categoryId);
         Task<IResponse<bool>> Approve(long vacancyId);
-        Task<IResponse<bool>> ApproveByOwner(long vacancyId,long personId);
-
+        Task<IResponse<bool>> ApproveByOwner(long vacancyId, long personId);
+        Task<IResponse<bool>> Finish(long vacancyId);
 
     }
 }
