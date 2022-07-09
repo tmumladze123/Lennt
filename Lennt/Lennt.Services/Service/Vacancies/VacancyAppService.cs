@@ -120,12 +120,8 @@ namespace Lennt.Services.Service.Vacancies
         }
         public async Task<IResponse<bool>> Approve(long vacancyId)
         {
-            long userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
-            var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x => x.VacancyId == vacancyId && x.PersonId == userId);
+            var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x => x.VacancyId == vacancyId);
             vacancyPerson.IsApproved = true;
-            var vacancy = _db.Vacancies.FirstOrDefault(x => x.Id == vacancyId );
-            vacancy.IsDoing = true;
-            _db.Update(vacancy);
             _db.Update(vacancyPerson);
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
@@ -135,14 +131,12 @@ namespace Lennt.Services.Service.Vacancies
         {
             var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x => x.VacancyId == vacancyId && x.PersonId == personId);
             vacancyPerson.IsApproved = true;
-            Vacancy vacancy = _db.Vacancies.FirstOrDefault(x => x.Id == vacancyId);
-            vacancy.IsDoing = true;
             _db.Update(vacancyPerson);
-            _db.Update(vacancy);
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
 
         }
+
 
         public async Task<IResponse<bool>> Finish(long vacancyId)
         {
@@ -154,6 +148,7 @@ namespace Lennt.Services.Service.Vacancies
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
         }
+
     }
 
 }
