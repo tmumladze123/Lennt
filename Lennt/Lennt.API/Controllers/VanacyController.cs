@@ -33,6 +33,12 @@ namespace Lennt.API.Controllers
             return await result;
         }
         [HttpPost]
+        public async Task<IResponse<bool>> Finish(long vacancyId)
+        {
+            var result = _Service.Finish(vacancyId);
+            return await result;
+        }
+        [HttpPost]
         public async Task<IResponse<bool>> ApproveByOwner(long vacancyId, long personId)
         {
             var result = _Service.ApproveByOwner(vacancyId, personId);

@@ -17,7 +17,7 @@ namespace Lennt.Services.Interfaces.VacancyInterface
         Task<IResponse<List<GetVacancyDto>>> GetList(int? categoryId);
         Task<IResponse<bool>> Approve(long vacancyId);
         Task<IResponse<bool>> ApproveByOwner(long vacancyId,long personId);
-
+        Task<IResponse<bool>> Finish(long vacancyId);
 
     }
 }
