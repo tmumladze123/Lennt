@@ -54,9 +54,9 @@ namespace Lennt.API.Controllers
             return await result;
         }
         [HttpGet]
-        public async Task<IResponse<List<PersonWithIdDto>>> GetList()
+        public async Task<IResponse<List<PersonWithIdDto>>> GetList(string? location, string? skills)
         {
-            var result = _Service.GetList();
+            var result = _Service.GetList(location, skills);
             return await result;
         }
     }

@@ -34,13 +34,13 @@ namespace Lennt.Services.Service.Vacancies
                 _mapper.Map<GetVacancyDto>(_db.Vacancies.FirstOrDefault(x => x.Id == id))
             };
         }
-        public async Task<IResponse<List<GetVacancyDto>>> GetList(int? categoryId)
+        public async Task<IResponse<List<GetVacancyDto>>> GetList(int? categoryId, string? titleContains, string? location)
         {
             return new ResponseModel<List<GetVacancyDto>>()
             {
                 
                 Data =
-                _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x => x.IsFinished == false && ((categoryId==null && x.CategoryId!=categoryId)|| (categoryId != null && x.CategoryId == categoryId))).ToList())
+                _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x => x.IsFinished == false && x.Location.Contains(location??"")  && (x.CategoryId==categoryId || categoryId==null) && x.Title.Contains(titleContains??"")).ToList())
             };
         }
         public async Task<IResponse<List<GetVacancyDto>>> GetMyVacancies()
@@ -146,7 +146,6 @@ namespace Lennt.Services.Service.Vacancies
 
         public async Task<IResponse<bool>> Finish(long vacancyId)
         {
-            
             Vacancy vacancy = _db.Vacancies.FirstOrDefault(x => x.Id == vacancyId);
             vacancy.IsFinished = true;
             vacancy.IsDoing = false;

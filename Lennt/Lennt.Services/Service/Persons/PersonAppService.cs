@@ -42,12 +42,12 @@ namespace Lennt.Services.Service.Persons
                 _mapper.Map<PersonDto>(_db.Persons.FirstOrDefault(x => x.Id == id))
             };
         }
-        public async Task<IResponse<List<PersonWithIdDto>>> GetList()
+        public async Task<IResponse<List<PersonWithIdDto>>> GetList(string? location, string? skills)
         {
             return new ResponseModel<List<PersonWithIdDto>>()
             {
                 Data =
-                _mapper.Map<List<PersonWithIdDto>>(_db.Persons.Where(x => x.IsDeleted == false && x.IsActive == true).OrderBy(x => System.Convert.ToInt32(x.Id)).ToList())
+                _mapper.Map<List<PersonWithIdDto>>(_db.Persons.Where(x => x.IsDeleted == false && x.Skills.Contains(skills??"") && x.Location.Contains(location??"") && x.IsActive == true).OrderBy(x => System.Convert.ToInt32(x.Id)).ToList())
             };
         }
 
