@@ -3,15 +3,17 @@ using System;
 using Lennt.Model;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Lennt.Model.Migrations
 {
     [DbContext(typeof(LenntDbContext))]
-    partial class LenntDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220710204407_add imageUrl in category")]
+    partial class addimageUrlincategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
