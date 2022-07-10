@@ -75,14 +75,18 @@ namespace Lennt.Services.Service.Vacancies
                 && x.Title.Contains(titleContains ?? "")).ToList())
             };
         }
-        public async Task<IResponse<List<GetMyVacanciesListDto>>> GetMyVacancies()
+        public async Task<IResponse<List<GetMyVacanciesListDto>>> GetMyVacancies(int? categoryId, string? titleContains, string? location)
+
         {
 
             var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
             var vacancies = _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
                 x.CreatePersonId == userId
                 && x.IsActive == true
-                && x.IsDeleted == false).ToList());
+                && x.IsDeleted == false
+                && x.Location.Contains(location ?? "")
+                && (x.CategoryId == categoryId || categoryId == null)
+                && x.Title.Contains(titleContains ?? "")).ToList());
             List<GetMyVacanciesListDto> vacancyList = new List<GetMyVacanciesListDto>();
             foreach (var vacancy in vacancies)
             {
@@ -101,10 +105,9 @@ namespace Lennt.Services.Service.Vacancies
             return new ResponseModel<List<GetMyVacanciesListDto>>()
             {
                 Data = vacancyList
-
             };
         }
-        public async Task<IResponse<List<GetVacancyDto>>> GetMyOffers()
+        public async Task<IResponse<List<GetVacancyDto>>> GetMyOffers(int? categoryId, string? titleContains, string? location)
         {
             var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
 
@@ -114,7 +117,9 @@ namespace Lennt.Services.Service.Vacancies
                 _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
                 x.VacancyPersons.Any(w => w.PersonId == userId)
                 //&& x.IsActive == true
-                && x.IsDeleted == false).ToList())
+                && x.IsDeleted == false && x.Location.Contains(location ?? "")
+                && (x.CategoryId == categoryId || categoryId == null)
+                && x.Title.Contains(titleContains ?? "")).ToList())
             };
         }
         public async Task<IResponse<bool>> Create(VacancyDto input, long userId)
