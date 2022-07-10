@@ -72,9 +72,9 @@ namespace Lennt.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IResponse<List<GetVacancyDto>>> GetMyVacancies()
+        public async Task<IResponse<List<GetVacancyDto>>> GetMyVacancies(int? categoryId, string? titleContains, string? location)
         {
-            var result = _Service.GetMyVacancies();
+            var result = _Service.GetMyVacancies(categoryId, titleContains, location);
             return await result;
         }
         [HttpGet]
