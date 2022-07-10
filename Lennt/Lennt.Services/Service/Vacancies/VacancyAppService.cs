@@ -46,7 +46,7 @@ namespace Lennt.Services.Service.Vacancies
                     Id = person.PersonId,
                     ProposalFirstname = _db.Persons.FirstOrDefault(x => x.Id == person.PersonId).Firstname,
                     ProposalLastname = _db.Persons.FirstOrDefault(x => x.Id == person.PersonId).Lastname,
-                    IsApproved=person.IsApproved
+                    IsApproved = person.IsApproved
 
                 };
                 proposals.Add(propsal);
@@ -161,9 +161,11 @@ namespace Lennt.Services.Service.Vacancies
         public async Task<IResponse<bool>> Approve(long vacancyId)
         {
             var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x => x.VacancyId == vacancyId);
+            var vacancy = _db.Vacancies.FirstOrDefault(x => x.Id == vacancyId);
             vacancyPerson.IsApproved = true;
-            vacancyPerson.Vacancy.IsDoing = true;
+            vacancy.IsDoing = true;
             _db.Update(vacancyPerson);
+            _db.Update(vacancy);
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
         }
@@ -173,9 +175,12 @@ namespace Lennt.Services.Service.Vacancies
             var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x =>
             x.VacancyId == vacancyId
             && x.PersonId == personId);
+            var vacancy = _db.Vacancies.FirstOrDefault(x => x.Id == vacancyId);
+
             vacancyPerson.IsApproved = true;
-            vacancyPerson.Vacancy.IsDoing = true;
+            vacancy.IsDoing = true;
             _db.Update(vacancyPerson);
+            _db.Update(vacancy);
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
 
