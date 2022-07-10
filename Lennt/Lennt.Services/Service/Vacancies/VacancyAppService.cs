@@ -34,6 +34,32 @@ namespace Lennt.Services.Service.Vacancies
                 _mapper.Map<GetVacancyDto>(_db.Vacancies.FirstOrDefault(x => x.Id == id))
             };
         }
+        public async Task<IResponse<GetMyVacanciesDto>> GetMyVacanciesDetails(long id)
+        {
+            var vacancy = _mapper.Map<GetVacancyDto>(_db.Vacancies.FirstOrDefault(x => x.Id == id));
+            List<VacancyProposalDto> proposals = new List<VacancyProposalDto>();
+            var vacancyPersons = _db.VacancyPersons.Where(x => x.VacancyId == id).ToList();
+            foreach(var person in vacancyPersons)
+            {
+                VacancyProposalDto propsal = new VacancyProposalDto()
+                {
+                    Id = person.PersonId,
+                    ProposalFirstname = _db.Persons.FirstOrDefault(x => x.Id == person.PersonId).Firstname,
+                    ProposalLastname = _db.Persons.FirstOrDefault(x => x.Id == person.PersonId).Lastname
+                };
+                proposals.Add(propsal);
+
+            }
+            GetMyVacanciesDto data = new GetMyVacanciesDto()
+            {
+                Vacancy = vacancy,
+                Proposal = proposals
+            };
+            return new ResponseModel<GetMyVacanciesDto>()
+            {
+                Data =data
+            };
+        }
         public async Task<IResponse<List<GetVacancyDto>>> GetList(int? categoryId, string? titleContains, string? location)
         {
             return new ResponseModel<List<GetVacancyDto>>()

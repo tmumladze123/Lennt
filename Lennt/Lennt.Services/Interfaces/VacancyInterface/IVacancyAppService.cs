@@ -12,6 +12,7 @@ namespace Lennt.Services.Interfaces.VacancyInterface
         Task<IResponse<bool>> Update(VacancyDto input);
         Task<IResponse<bool>> SubmitProposal(long vacancyId);
         Task<IResponse<GetVacancyDto>> Get(long id);
+        Task<IResponse<GetMyVacanciesDto>> GetMyVacanciesDetails(long id);
         Task<IResponse<List<GetVacancyDto>>> GetMyOffers();
         Task<IResponse<List<GetVacancyDto>>> GetMyVacancies();
         Task<IResponse<List<GetVacancyDto>>> GetList(int? categoryId, string? titleContains, string? location);
