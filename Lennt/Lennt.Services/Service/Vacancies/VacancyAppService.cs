@@ -39,13 +39,15 @@ namespace Lennt.Services.Service.Vacancies
             var vacancy = _mapper.Map<GetVacancyDto>(_db.Vacancies.FirstOrDefault(x => x.Id == id));
             List<VacancyProposalDto> proposals = new List<VacancyProposalDto>();
             var vacancyPersons = _db.VacancyPersons.Where(x => x.VacancyId == id).ToList();
-            foreach(var person in vacancyPersons)
+            foreach (var person in vacancyPersons)
             {
                 VacancyProposalDto propsal = new VacancyProposalDto()
                 {
                     Id = person.PersonId,
                     ProposalFirstname = _db.Persons.FirstOrDefault(x => x.Id == person.PersonId).Firstname,
-                    ProposalLastname = _db.Persons.FirstOrDefault(x => x.Id == person.PersonId).Lastname
+                    ProposalLastname = _db.Persons.FirstOrDefault(x => x.Id == person.PersonId).Lastname,
+                    IsApproved=person.IsApproved
+
                 };
                 proposals.Add(propsal);
 
@@ -57,20 +59,32 @@ namespace Lennt.Services.Service.Vacancies
             };
             return new ResponseModel<GetMyVacanciesDto>()
             {
-                Data =data
+                Data = data
             };
         }
         public async Task<IResponse<List<GetVacancyDto>>> GetList(int? categoryId, string? titleContains, string? location)
         {
             return new ResponseModel<List<GetVacancyDto>>()
             {
-                
+
                 Data =
-                _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x => x.IsFinished == false && x.Location.Contains(location??"")  && (x.CategoryId==categoryId || categoryId==null) && x.Title.Contains(titleContains??"")).ToList())
+                _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
+                x.IsFinished == false
+                && x.Location.Contains(location ?? "")
+                && (x.CategoryId == categoryId || categoryId == null)
+                && x.Title.Contains(titleContains ?? "")).ToList())
             };
         }
         public async Task<IResponse<List<GetVacancyDto>>> GetMyVacancies()
         {
+
+            //var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
+            //var vacancies = _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
+            //    x.CreatePersonId == userId
+            //    && x.IsActive == true
+            //    && x.IsDeleted == false).ToList());
+            //List<GetMyVacanciesListDto> vacancyList = new List<GetMyVacanciesListDto>();
+
             var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
             return new ResponseModel<List<GetVacancyDto>>()
             {
@@ -148,6 +162,7 @@ namespace Lennt.Services.Service.Vacancies
         {
             var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x => x.VacancyId == vacancyId);
             vacancyPerson.IsApproved = true;
+            vacancyPerson.Vacancy.IsDoing = true;
             _db.Update(vacancyPerson);
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
@@ -155,8 +170,11 @@ namespace Lennt.Services.Service.Vacancies
 
         public async Task<IResponse<bool>> ApproveByOwner(long vacancyId, long personId)
         {
-            var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x => x.VacancyId == vacancyId && x.PersonId == personId);
+            var vacancyPerson = _db.VacancyPersons.FirstOrDefault(x =>
+            x.VacancyId == vacancyId
+            && x.PersonId == personId);
             vacancyPerson.IsApproved = true;
+            vacancyPerson.Vacancy.IsDoing = true;
             _db.Update(vacancyPerson);
             _db.SaveChanges();
             return new ResponseModel<bool>() { Data = true };
