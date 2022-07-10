@@ -75,24 +75,33 @@ namespace Lennt.Services.Service.Vacancies
                 && x.Title.Contains(titleContains ?? "")).ToList())
             };
         }
-        public async Task<IResponse<List<GetVacancyDto>>> GetMyVacancies()
+        public async Task<IResponse<List<GetMyVacanciesListDto>>> GetMyVacancies()
         {
 
-            //var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
-            //var vacancies = _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
-            //    x.CreatePersonId == userId
-            //    && x.IsActive == true
-            //    && x.IsDeleted == false).ToList());
-            //List<GetMyVacanciesListDto> vacancyList = new List<GetMyVacanciesListDto>();
-
             var userId = _db.Persons.FirstOrDefault(x => x.Id == _jwtPasswordService.GetUserId()).Id;
-            return new ResponseModel<List<GetVacancyDto>>()
-            {
-                Data =
-                _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
+            var vacancies = _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
                 x.CreatePersonId == userId
                 && x.IsActive == true
-                && x.IsDeleted == false).ToList())
+                && x.IsDeleted == false).ToList());
+            List<GetMyVacanciesListDto> vacancyList = new List<GetMyVacanciesListDto>();
+            foreach (var vacancy in vacancies)
+            {
+                var vacancyPerson = _db.VacancyPersons.Where(x =>
+                  x.VacancyId == vacancy.Id
+                  && x.IsActive == true
+                  && x.IsDeleted == false);
+                GetMyVacanciesListDto temp = new GetMyVacanciesListDto()
+                {
+                    Vacancy = vacancy,
+                    ProposalAmount = vacancyPerson.Count()
+                };
+                vacancyList.Add(temp);
+            }
+
+            return new ResponseModel<List<GetMyVacanciesListDto>>()
+            {
+                Data = vacancyList
+
             };
         }
         public async Task<IResponse<List<GetVacancyDto>>> GetMyOffers()
