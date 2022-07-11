@@ -69,7 +69,7 @@ namespace Lennt.Services.Service.Vacancies
 
                 Data =
                 _mapper.Map<List<GetVacancyDto>>(_db.Vacancies.Where(x =>
-                x.IsFinished == false
+                x.IsFinished == false && x.VacancyTypeId == 1
                 && x.Location.Contains(location ?? "")
                 && (x.CategoryId == categoryId || categoryId == null)
                 && x.Title.Contains(titleContains ?? "")).ToList())
