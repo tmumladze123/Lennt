@@ -42,7 +42,7 @@ namespace Lennt.Services.Service.Persons
                 _mapper.Map<PersonDto>(_db.Persons.FirstOrDefault(x => x.Id == id))
             };
         }
-        public async Task<IResponse<List<PersonWithIdDto>>> GetList(int? categoryId, string? location, string? skills)
+        public async Task<IResponse<List<PersonWithIdDto>>> GetPersonList(int? categoryId, string? location, string? skills)
         {
             return new ResponseModel<List<PersonWithIdDto>>()
             {
